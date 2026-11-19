@@ -5,7 +5,6 @@ export async function updateSession(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // If env vars are missing, fail open (don't crash the site)
   if (!supabaseUrl || !supabaseKey) {
     console.error("Supabase env vars missing in middleware, skipping auth.");
     return NextResponse.next({ request });
