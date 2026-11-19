@@ -15,10 +15,19 @@ export default function LoginPage() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true); setError("");
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) { setError(error.message); setLoading(false); return; }
-    router.push("/dashboard"); router.refresh();
+    setLoading(true);
+    setError("");
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+    router.push("/dashboard");
+    router.refresh();
   }
 
   return (
@@ -34,17 +43,40 @@ export default function LoginPage() {
           <h1 className="text-xl font-semibold">Welcome back</h1>
           <p className="text-sm text-slate-500 mt-1">Log in to your workspace.</p>
           <form onSubmit={onSubmit} className="mt-5 space-y-3">
-            <div><label className="label">Email</label>
-              <input className="input" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-            <div><label className="label">Password</label>
-              <input className="input" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} /></div>
-            {error && <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{error}</p>}
+            <div>
+              <label className="label">Email</label>
+              <input
+                className="input"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="label">Password</label>
+              <input
+                className="input"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            {error && (
+              <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">
+                {error}
+              </p>
+            )}
             <button className="btn-primary w-full" disabled={loading}>
               {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
           <p className="text-sm text-slate-500 mt-4 text-center">
-            No account? <Link href="/signup" className="text-brand-600 font-medium">Sign up</Link>
+            No account?{" "}
+            <Link href="/signup" className="text-brand-600 font-medium">
+              Sign up
+            </Link>
           </p>
         </div>
       </div>
