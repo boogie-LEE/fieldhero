@@ -1,10 +1,13 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  // Temporarily disable all Supabase logic to ensure the site can load
-  return NextResponse.next({ request });
+  // Temporarily bypass all auth logic so the site loads.
+  // We'll re-enable Supabase auth once we confirm the site is stable.
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };
