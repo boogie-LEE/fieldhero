@@ -192,4 +192,100 @@ export default function EmployeesPage() {
                     onClick={() => setDelTarget(e)}
                   >
                     <Trash2 className="h-3.5 w-3.5" />
-                  </button
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <Modal
+        open={modal}
+        onClose={() => setModal(false)}
+        title={editing ? "Edit employee" : "Add employee"}
+        footer={
+          <>
+            <button className="btn-secondary" onClick={() => setModal(false)}>
+              Cancel
+            </button>
+            <button
+              className="btn-primary"
+              onClick={save}
+              disabled={saving || !form.name}
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
+          </>
+        }
+      >
+        <div className="space-y-3">
+          <div>
+            <label className="label">Name *</label>
+            <input
+              className="input"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="label">Email</label>
+            <input
+              className="input"
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="label">Phone</label>
+            <input
+              className="input"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="label">Role</label>
+              <input
+                className="input"
+                value={form.role}
+                onChange={(e) => setForm({ ...form, role: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="label">Hourly rate ($)</label>
+              <input
+                className="input"
+                type="number"
+                step="0.01"
+                value={form.hourly_rate}
+                onChange={(e) =>
+                  setForm({ ...form, hourly_rate: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={form.active}
+              onChange={(e) => setForm({ ...form, active: e.target.checked })}
+            />{" "}
+            Active
+          </label>
+        </div>
+      </Modal>
+
+      <Confirm
+        open={!!delTarget}
+        onClose={() => setDelTarget(null)}
+        onConfirm={confirmDelete}
+        loading={deleting}
+        title="Delete employee?"
+        message={`Remove "${delTarget?.name}"? Jobs will be unassigned.`}
+      />
+    </div>
+  );
+}
